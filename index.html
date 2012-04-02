@@ -3,6 +3,7 @@
     <head>
         <meta charset=utf-8>
         <title>Simple SVG renderer</title>
+        <link rel="stylesheet" href="main.css">
         <script src="sprintf.js"></script>
         <script src="ace.js"></script>
         <script src="mode-javascript.js"></script>
@@ -23,49 +24,40 @@
                 var params = eval(jseditor.getSession().getValue());
                 var xml = sprintf(svgeditor.getSession().getValue(), params);
                 
-                
                 var object = document.createElement("object");
                 object.width = params.width;
                 object.height = params.height;
                 object.data = "data:image/svg+xml," + encodeURIComponent(xml);
                 object.type = "image/svg+xml";
-                object.style.position = 'absolute';
-                object.style.top = '200px';
-                object.style.left = '300px';
+                var width = parseInt(params.width);
+                var left;
+                if (isNaN(width)) {
+                    width = parseInt(params.width.replace('px', ''));
+                    if (isNaN(width)) {
+                        left = '300px';
+                    } else {
+                        left = (document.body.clientWidth - width)/2;
+                        left = left + 'px';
+                    }
+                } else {
+                    left = (document.body.clientWidth - width)/2;
+                    left = left + 'px';
+                }
 
-                document.body.appendChild(object);
+                var popup = document.getElementById('imagePopup');
+                popup.style.left = left;
+                popup.width = params.width;
+                var container = document.getElementById('container');
+                container.innerHTML = '';
+                container.appendChild(object);
+                popup.style.display = 'block';
+            }
+
+            function closePopup(event) {
+                document.getElementById('imagePopup').style.display = 'none';
+                event.preventDefault();
             }
         </script>
-        <style type="text/css" media="screen">
-            body {
-                overflow: hidden;
-                margin: 0;
-                padding: 0;
-            }
-
-            #panel {
-                height:30px;
-                background-color: #ccc;
-                text-align: center;
-            }
-            
-            .editor { 
-                margin: 0;
-                position: absolute;
-                width: 50%;
-                top: 30px;
-                right: 0;
-                bottom: 0;
-            }
-
-            #jseditor {
-                left: 0;
-            }
-
-            #editor {
-                left: 50%;
-            }
-        </style>
     </head>
     <body>
         <div id="panel">
@@ -75,5 +67,11 @@
         </div>
         <div id="jseditor" class="editor"></div>
         <div id="svgeditor" class="editor"></div>
+        <div id="imagePopup" style="display:none">
+            <div id="containerHeader">
+                <a href="#" onclick="closePopup(event)">Close</a>
+            </div>
+            <div id="container"></div>
+        </div>
     </body>
 </html>

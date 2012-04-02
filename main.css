@@ -1,0 +1,41 @@
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#panel {
+    height:30px;
+    background-color: #ccc;
+    text-align: center;
+}
+
+.editor { 
+    margin: 0;
+    position: absolute;
+    width: 50%;
+    top: 30px;
+    right: 0;
+    bottom: 0;
+}
+
+#jseditor {
+    left: 0;
+}
+
+#editor {
+    left: 50%;
+}
+
+#imagePopup {
+    position: absolute;
+    top: 100px;
+    background-color: #999;
+    z-index: 10000;
+}
+
+#containerHeader {
+    text-align: right;
+    background-color: #ccc;
+    padding: 5px;
+}
