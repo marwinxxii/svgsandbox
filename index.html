@@ -8,61 +8,14 @@
         <script src="ace.js"></script>
         <script src="mode-javascript.js"></script>
         <script src="mode-svg.js"></script>
-        <script>
-            var jseditor, svgeditor;
-            window.onload = function() {
-                jseditor = ace.edit("jseditor");
-                var JavaScriptMode = require("ace/mode/javascript").Mode;
-                jseditor.getSession().setMode(new JavaScriptMode());
-
-                svgeditor = ace.edit("svgeditor");
-                var SVGMode = require("ace/mode/svg").Mode;
-                svgeditor.getSession().setMode(new SVGMode());
-            }
-
-            function render() {
-                var params = eval(jseditor.getSession().getValue());
-                var xml = sprintf(svgeditor.getSession().getValue(), params);
-                
-                var object = document.createElement("object");
-                object.width = params.width;
-                object.height = params.height;
-                object.data = "data:image/svg+xml," + encodeURIComponent(xml);
-                object.type = "image/svg+xml";
-                var width = parseInt(params.width);
-                var left;
-                if (isNaN(width)) {
-                    width = parseInt(params.width.replace('px', ''));
-                    if (isNaN(width)) {
-                        left = '300px';
-                    } else {
-                        left = (document.body.clientWidth - width)/2;
-                        left = left + 'px';
-                    }
-                } else {
-                    left = (document.body.clientWidth - width)/2;
-                    left = left + 'px';
-                }
-
-                var popup = document.getElementById('imagePopup');
-                popup.style.left = left;
-                popup.width = params.width;
-                var container = document.getElementById('container');
-                container.innerHTML = '';
-                container.appendChild(object);
-                popup.style.display = 'block';
-            }
-
-            function closePopup(event) {
-                document.getElementById('imagePopup').style.display = 'none';
-                event.preventDefault();
-            }
-        </script>
+        <script src="svgsandbox.js"></script>
     </head>
     <body>
         <div id="panel">
             <span style="position:absolute; left:25%;">JS</span>
             <button onclick="render()" style="clear:both">Generate</button>
+            <select id="imageSelector" style="display:none"></select>
+            <a href="#" id="saveLink">Save (local storage)</a>
             <span style="position:absolute; right:25%;">SVG</span>
         </div>
         <div id="jseditor" class="editor"></div>

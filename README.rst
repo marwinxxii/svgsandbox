@@ -5,6 +5,7 @@ SVG Sandbox
 `ACE editor <https://github.com/ajaxorg/ace>`_ + `sprintf <http://www.diveintojavascript.com/projects/javascript-sprintf>`_
 
 Simple sandbox for creating SVG images depending on input parameters.
+`Try <http://marwinxxii.github.com/svgsandbox/>`_
 
 Example
 -------
